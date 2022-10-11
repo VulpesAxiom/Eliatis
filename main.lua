@@ -1,15 +1,18 @@
-Object = require "classic"
+Object = require "Classic"
 require "Graphs"
+require "Buttons"
 
 function love.load()
-    vertices = {}
+    gameArea = GameArea(200,20,300,400)
+    buttons = {}
     left_held = 0
+    table.insert(buttons,Button(50,100))
 end
 
 function love.update(dt)
     if (love.mouse.isDown(1)) then
         if (left_held == 0) then
-            table.insert(vertices, Vertex(love.mouse.getX(), love.mouse.getY()))
+            table.insert(gameArea.vertices, Vertex(love.mouse.getX(), love.mouse.getY()))
             left_held = 1
         end
     else
@@ -18,8 +21,11 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.print("hola",50,20)
-    for i,vertex in pairs(vertices) do
+    gameArea:draw()
+    for i,vertex in pairs(gameArea.vertices) do
         vertex:draw()
+    end
+    for i,button in ipairs(buttons) do
+        button:draw()
     end
 end
