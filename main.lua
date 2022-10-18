@@ -9,6 +9,7 @@ function love.load()
     left_held = 0
     right_held = 0
     table.insert(buttons,Button(50,100))
+    in_vertex = false
 end
 
 function love.update(dt)
@@ -33,8 +34,10 @@ end
 
 function love.draw()
     game_area:draw()
+
     for i,vertex in pairs(game_area.vertices) do
-        vertex:draw()
+        inside = vertex:draw()
+        in_vertex = in_vertex or inside
     end
     for i,button in ipairs(buttons) do
         button:draw()

@@ -9,11 +9,22 @@ function mouse_in_game_area()
     return false
 end
 
+function in_radius(x,y, radius)
+    if(dist(x,y,love.mouse.getX(),love.mouse.getY()) <= radius )then
+        return true
+    end
+    return false
+end
+
 function in_game_area(x,y)
-    if(x <= game_area.x + game_area.width and x > game_area.x)then
-        if(y <= game_area.y + game_area.height and y > game_area.y)then
+    if(math.abs(game_area.x + game_area.width/2 - x) <= game_area.width/2)then
+        if(math.abs(game_area.y + game_area.height/2 - y) <= game_area.height/2)then
             return true
         end
     end
     return false
+end
+
+function dist(x1,y1,x2,y2)
+    return math.sqrt((x1-x2)^2 + (y1-y2)^2)
 end
