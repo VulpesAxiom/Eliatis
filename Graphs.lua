@@ -12,6 +12,8 @@ end
 
 function Vertex:draw()
     inside = in_radius(self.x_pos,self.y_pos, self.radius)
+    self.x_pos = self.x_pos + displace_x
+    self.y_pos = self.y_pos + displace_y
     if (inside) then
         love.graphics.setLineWidth(3)
     end

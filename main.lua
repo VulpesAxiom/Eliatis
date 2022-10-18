@@ -9,11 +9,15 @@ function love.load()
     left_held = 0
     right_held = 0
     table.insert(buttons,Button(50,100))
-    in_vertex = false
+    displace_x = 0
+    displace_y = 0
+    drag_origin_x = 0
+    drag_origin_y = 0
+    dragging = false
 end
 
 function love.update(dt)
-    if (love.mouse.isDown(1)) then
+    if (love.mouse.isDown(1) and (not dragging)) then
         if (left_held == 0) then
             if(mouse_in_game_area()) then
                 table.insert(game_area.vertices, Vertex(love.mouse.getX(), love.mouse.getY()))
@@ -24,16 +28,37 @@ function love.update(dt)
         left_held = 0
     end
     if (love.mouse.isDown(2)) then
+
+        if((not in_vertex) or dragging) then
+            if (not dragging) then
+                drag_origin_x = love.mouse.getX()
+                drag_origin_y = love.mouse.getY()
+            end
+            if (right_held == 0) then
+                dragging = true
+            end
+        end
+
         if (right_held == 0) then
             right_held = 1
         end
     else
         right_held = 0
+        dragging = false
+        displace_y = 0
+        displace_x = 0
     end
 end
 
 function love.draw()
     game_area:draw()
+    in_vertex = false
+    if (dragging) then
+        displace_x = love.mouse.getX() - drag_origin_x
+        displace_y = love.mouse.getY() - drag_origin_y
+        drag_origin_x = love.mouse.getX()
+        drag_origin_y = love.mouse.getY()
+    end
 
     for i,vertex in pairs(game_area.vertices) do
         inside = vertex:draw()
@@ -42,4 +67,5 @@ function love.draw()
     for i,button in ipairs(buttons) do
         button:draw()
     end
+    love.graphics.print(displace_x .. "," .. displace_y, 20, 20)
 end
