@@ -16,6 +16,13 @@ function in_radius(x,y, radius)
     return false
 end
 
+function near_radius(x,y, radius)
+    if(dist(x,y,love.mouse.getX(),love.mouse.getY()) <= 2 * radius )then
+        return true
+    end
+    return false
+end
+
 function in_game_area(x,y)
     if(math.abs(game_area.x + game_area.width/2 - x) <= game_area.width/2)then
         if(math.abs(game_area.y + game_area.height/2 - y) <= game_area.height/2)then

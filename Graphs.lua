@@ -12,6 +12,7 @@ end
 
 function Vertex:draw()
     inside = in_radius(self.x_pos,self.y_pos, self.radius)
+    near = near_radius(self.x_pos,self.y_pos,self.radius)
     self.x_pos = self.x_pos + displace_x
     self.y_pos = self.y_pos + displace_y
     if (inside) then
@@ -21,7 +22,7 @@ function Vertex:draw()
         love.graphics.circle("line", self.x_pos, self.y_pos, self.radius)
     end
     love.graphics.setLineWidth(1)
-    return inside
+    return inside, near
 end
 
 function GameArea:new(x,y,width,height)
